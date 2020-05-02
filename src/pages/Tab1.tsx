@@ -18,6 +18,7 @@ import {
   IonButton,
   IonCard,
   IonCardContent,
+  IonInput,
 } from "@ionic/react";
 
 import { add, pin } from "ionicons/icons";
@@ -43,6 +44,24 @@ interface Task {
 const Tab1: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [showModal, setShowModal] = useState(false);
+  const [taskName = "", setTaskName] = useState<string>();
+
+  function addNewTask() {
+    const new_id = tasks.length + 1;
+
+    const newTask = {
+      id: new_id,
+      name: taskName,
+    };
+
+    tasks.push(newTask);
+
+    setTasks(tasks);
+
+    setTaskName("");
+
+    setShowModal(false);
+  }
 
   return (
     <IonPage>
@@ -81,8 +100,21 @@ const Tab1: React.FC = () => {
             </IonItem>
 
             <IonCardContent>
-              This is content, without any paragraph or header tags, within an
-              ion-cardContent element.
+              <IonItem>
+                <IonInput
+                  value={taskName}
+                  placeholder="Enter Task Name..."
+                  onIonChange={(e) => setTaskName(e.detail.value!)}
+                ></IonInput>
+              </IonItem>
+
+              <IonButton
+                expand="full"
+                color="primary"
+                onClick={() => addNewTask()}
+              >
+                Add Task
+              </IonButton>
             </IonCardContent>
           </IonCard>
           <IonButton onClick={() => setShowModal(false)}>Close Modal</IonButton>
